@@ -128,17 +128,17 @@ paths:
                   value:
                     - productId: 101
                       name: Apple IPhone 13 Pro
-                      price: 999.00
+                      price: 999.99
                       categoryName: Mobiles
                       quantity: 96
                     - productId: 102
                       name: Samsung S22 Ultra
-                      price: 899.00
+                      price: 899.11
                       categoryName: Mobiles
                       quantity: 121
                     - productId: 103
                       name: OnePlus 10 Pro 5G
-                      price: 750.00
+                      price: 750.25
                       categoryName: Mobiles
                       quantity: 67
         500:
@@ -185,17 +185,6 @@ paths:
                   type: array
                   items:
                     $ref: "#/components/schemas/Product"
-                address:
-                  type: object
-                  properties:
-                    addressLine1:
-                      type: string
-                    city:
-                      type: string
-                    state:
-                      type: string
-                    zipCode:
-                      type: string
       responses:
         201:
           description: Order created successfully
@@ -322,6 +311,10 @@ components:
           type: string
         state:
           type: string
+          enum:
+            - Spain
+            - France
+            - Germany
         zipCode:
           type: string
       required: [addressLine1, city, state, zipCode]
@@ -332,8 +325,13 @@ components:
           type: integer
         price:
           type: number
+          format: float
         categoryName:
           type: string
+        releaseDate:
+          type: string
+          format: date-time
+          readOnly: true
         quantity:
           type: integer
           description: |
