@@ -2,8 +2,16 @@ openapi: 3.0.1
 info:
   title: EazyShop Products APIs Definition
   description: |
-    Using this OpenAPi specifications, 
-    any consumer can understand the APIs that are exposed by EazyShop
+      # About Us
+      **EazyShop** is a open market product selling company. Any website can list our products by  using our _APIs_. Shipping & other logistics will be taken care by us. You will get an `Affiliate commision` for selling our products.
+      # Categories suported
+        - Mobiles
+          - Apple
+          - Samsung
+          - OnePlus
+        - Laptops
+        - Televisions
+        - Headphones
   termsOfService: https://eazyshop.com/terms/
   contact:
     name: API Support
@@ -33,9 +41,21 @@ servers:
         default: "8443"
       version:
         default: v1
+tags:
+  - name: Categories
+    description: |
+      Categories - related operations
+  - name: Products
+    description: |
+      Products - related operations
+  - name: Orders
+    description: |
+      Orders - related operations
 paths:
   /categories:
     get:
+      tags:
+        - Categories
       summary: List all categories
       description: Returns the list of categories supported by EazyShop
       parameters:
@@ -47,7 +67,15 @@ paths:
             # required: true
             minimum: 100
             maximum: 1000
-          example: 101
+          examples:
+            mobiles:
+              value: 101
+            laptops:
+              value: 102
+            headphones:
+              value: 103
+            televisions:
+              value: 104
       responses:
         200:
           description: A list of categories
@@ -62,8 +90,27 @@ paths:
                       type: integer
                     name:
                       type: string
+              examples:
+                all-categories-data:
+                  summary: Categories example data
+                  value:
+                    - categoryId: 101
+                      name: Mobiles
+                    - categoryId: 102
+                      name: Laptops
+                    - categoryId: 103
+                      name: Headphones
+                    - categoryId: 104
+                      name: Televisions
+                single-category-data:
+                  summary: Single category example data
+                  value:
+                    - categoryId: 101
+                      name: Mobiles
   /categories/{categoryId}:
     get:
+      tags: 
+        - Categories
       summary: Category details
       description: Returns a category details from EazyShop
       parameters:
@@ -89,6 +136,8 @@ paths:
                     type: string
   /products:
     get:
+      tags:
+        - Products
       summary: List al products
       description: Return all products from EazyShop
       parameters:
@@ -119,8 +168,31 @@ paths:
                       type: string
                     quantity:
                       type: integer
+                      description: |
+                        ***Quantity*** represents `stock` value when this field is being sent by EazyShop.Where as in the scenarios of consumer sending this feild, it represents `number of product items` inside the order. Consumers are expected to handle the scenario of stopping the end user <u>*when the stock value is 0*</u>
+              examples:
+                products-data:
+                  summary: Products example data
+                  value:
+                    - productId: 101
+                      name: Apple IPhone 13 Pro
+                      price: 999.00
+                      categoryName: Mobiles
+                      quantity: 96
+                    - productId: 102
+                      name: Samsung S22 Ultra
+                      price: 899.00
+                      categoryName: Mobiles
+                      quantity: 121
+                    - productId: 103
+                      name: OnePlus 10 Pro 5G
+                      price: 750.00
+                      categoryName: Mobiles
+                      quantity: 67
   /products/{productId}:
     get:
+      tags:
+        - Products
       summary: Product details
       description: Returns a product
       parameters:
@@ -150,8 +222,12 @@ paths:
                     type: string
                   quantity:
                     type: integer
+                    description: |
+                        ***Quantity*** represents `stock` value when this field is being sent by EazyShop.Where as in the scenarios of consumer sending this feild, it represents `number of product items` inside the order. Consumers are expected to handle the scenario of stopping the end user <u>*when the stock value is 0*</u>
   /orders:
     post:
+      tags:
+        - Orders
       summary: Create order
       description: |
         Post order etails to EazyShop for procesing and shipping
@@ -175,6 +251,8 @@ paths:
                         type: string
                       quantity:
                         type: integer
+                        description: |
+                          ***Quantity*** represents `stock` value when this field is being sent by EazyShop.Where as in the scenarios of consumer sending this feild, it represents `number of product items` inside the order. Consumers are expected to handle the scenario of stopping the end user <u>*when the stock value is 0*</u>
                 address:
                   type: object
                   properties:
@@ -197,6 +275,8 @@ paths:
                   orderId:
                     type: integer
     put:
+      tags:
+        - Orders
       summary: Update order
       description: |
         Post order etails to EazyShop for procesing and shipping
@@ -222,6 +302,8 @@ paths:
                         type: string
                       quantity:
                         type: integer
+                        description: |
+                          ***Quantity*** represents `stock` value when this field is being sent by EazyShop.Where as in the scenarios of consumer sending this feild, it represents `number of product items` inside the order. Consumers are expected to handle the scenario of stopping the end user <u>*when the stock value is 0*</u>
                 address:
                   type: object
                   properties:
@@ -244,6 +326,8 @@ paths:
                   orderId:
                     type: integer
     delete:
+      tags:
+        - Orders
       summary: Delete order
       description: Delete order details from EazyShop
       parameters:
@@ -259,6 +343,8 @@ paths:
         204:
           description: Order cancelled successfully
     get:
+      tags:
+        - Orders
       summary: Get order details
       description: Returns order details from EazyShop
       parameters:
@@ -304,3 +390,5 @@ paths:
                           type: string
                         quantity:
                           type: integer
+                          description: |
+                            ***Quantity*** represents `stock` value when this field is being sent by EazyShop.Where as in the scenarios of consumer sending this feild, it represents `number of product items` inside the order. Consumers are expected to handle the scenario of stopping the end user <u>*when the stock value is 0*</u>
