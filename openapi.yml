@@ -1,9 +1,9 @@
 openapi: 3.0.1
 info:
-  title: EazyShop Products APIs Definition
+  title: SuleShop Products APIs Definition
   description: |
       # About Us
-      **EazyShop** is a open market product selling company. Any website can list our products by  using our _APIs_. Shipping & other logistics will be taken care by us. You will get an `Affiliate commision` for selling our products.
+      **SuleShop** is a open market product selling company. Any website can list our products by  using our _APIs_. Shipping & other logistics will be taken care by us. You will get an `Affiliate commision` for selling our products.
       # Categories suported
         - Mobiles
           - Apple
@@ -12,23 +12,23 @@ info:
         - Laptops
         - Televisions
         - Headphones
-  termsOfService: https://eazyshop.com/terms/
+  termsOfService: https://suleshop.com/terms/
   contact:
     name: API Support
-    url: https://www.eazyshop.com/support
-    email: support@eazyshop.com
+    url: https://www.suleshop.com/support
+    email: support@suleshop.com
   license:
-    name: EazyShop License
-    url: https://www.eazyshop.com/licenses/LICENSE-2.0.html
+    name: SuleShop License
+    url: https://www.suleshop.com/licenses/LICENSE-2.0.html
   version: 0.0.1
 servers:
-  - url: https://development.eazyshop-server.com/v1
+  - url: https://development.suleshop-server.com/v1
     description: Development server
-  - url: https://staging.eazyshop-server.com/v1
+  - url: https://staging.suleshop-server.com/v1
     description: Staging server
-  - url: https://production.eazyshop-server.com/v1
+  - url: https://production.suleshop-server.com/v1
     description: Production server
-  - url: https://{username}.eazyshop-server.com:{port}/{version}
+  - url: https://{username}.suleshop-server.com:{port}/{version}
     description: Production server
     variables:
       username:
@@ -65,7 +65,7 @@ paths:
       tags:
         - Categories
       summary: List all categories
-      description: Returns the list of categories supported by EazyShop
+      description: Returns the list of categories supported by SuleShop
       operationId: getCategories
       parameters:
         - $ref: "#/components/parameters/categoryIdQueryParam"
@@ -102,7 +102,7 @@ paths:
       tags: 
         - Categories
       summary: Category details
-      description: Returns a category details from EazyShop
+      description: Returns a category details from SuleShop
       operationId: getCategoryDetails
       parameters:
         - $ref: "#/components/parameters/categoryIdPathParam"
@@ -120,7 +120,7 @@ paths:
       tags:
         - Products
       summary: List al products
-      description: Return all products from EazyShop
+      description: Return all products from SuleShop
       operationId: getProducts
       parameters:
         - $ref: "#/components/parameters/categoryIdQueryParam"
@@ -188,7 +188,7 @@ paths:
         - Orders
       summary: Create order
       description: |
-        Post order etails to EazyShop for procesing and shipping
+        Post order etails to SuleShop for procesing and shipping
       operationId: createOrderDetails
       requestBody:
         required: true
@@ -221,7 +221,7 @@ paths:
         - Orders
       summary: Update order
       description: |
-        Post order etails to EazyShop for procesing and shipping
+        Post order etails to SuleShop for procesing and shipping
       operationId: updateOrderDetails
       requestBody:
         required: true
@@ -254,7 +254,7 @@ paths:
       tags:
         - Orders
       summary: Delete order
-      description: Delete order details from EazyShop
+      description: Delete order details from SuleShop
       operationId: deleteOrderDetails
       parameters:
         - $ref: "#/components/parameters/orderIdQueryParam"
@@ -267,7 +267,7 @@ paths:
       tags:
         - Orders
       summary: Get order details
-      description: Returns order details from EazyShop
+      description: Returns order details from SuleShop
       operationId: getOrderDetails
       parameters:
         - $ref: "#/components/parameters/orderIdQueryParam"
@@ -294,7 +294,7 @@ paths:
       tags:
         - Orders
       summary: Get Order Details
-      description: Get order details from EazyShop
+      description: Get order details from SuleShop
       operationId: getOrderDetailsUsingPathParam
       deprecated: true
       parameters:
@@ -322,7 +322,7 @@ paths:
       tags:
         - Orders
       summary: Insert OneOf the Order Details
-      description: Insert OneOf the Order Details into EazyShop
+      description: Insert OneOf the Order Details into SuleShop
       operationId: demoOfOneOf
       requestBody:
         content:
@@ -445,7 +445,7 @@ components:
         quantity:
           type: integer
           description: |
-            ***Quantity*** represents `stock` value when this field is being sent by EazyShop.Where as in the scenarios of consumer sending this feild, it represents `number of product items` inside the order. Consumers are expected to handle the scenario of stopping the end user <u>*when the stock value is 0*</u>
+            ***Quantity*** represents `stock` value when this field is being sent by SuleShop.Where as in the scenarios of consumer sending this feild, it represents `number of product items` inside the order. Consumers are expected to handle the scenario of stopping the end user <u>*when the stock value is 0*</u>
     Category:
       type: object
       properties:
@@ -492,7 +492,7 @@ components:
     InternalServerError:        
       description: |
         An error occured while processing the request.
-        Please contact support@eazyshop.com
+        Please contact support@suleshop.com
   links:
     GetOrderByOrderId:
       description: >
