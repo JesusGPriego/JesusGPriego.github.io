@@ -58,6 +58,7 @@ paths:
         - Categories
       summary: List all categories
       description: Returns the list of categories supported by EazyShop
+      operationId: getCategories
       parameters:
         - $ref: "#/components/parameters/categoryIdQueryParam"
       responses:
@@ -87,13 +88,14 @@ paths:
                     - categoryId: 101
                       name: Mobiles
         500:
-          $ref: "#/components/responses/IntenrnalServerError"
+          $ref: "#/components/responses/InternalServerError"
   /categories/{categoryId}:
     get:
       tags: 
         - Categories
       summary: Category details
       description: Returns a category details from EazyShop
+      operationId: getCategoryDetails
       parameters:
         - $ref: "#/components/parameters/categoryIdPathParam"
       responses:
@@ -104,13 +106,14 @@ paths:
               schema:
                 $ref: "#/components/schemas/Category"
         500:
-          $ref: "#/components/responses/IntenrnalServerError"
+          $ref: "#/components/responses/InternalServerError"
   /products:
     get:
       tags:
         - Products
       summary: List al products
       description: Return all products from EazyShop
+      operationId: getProducts
       parameters:
         - $ref: "#/components/parameters/categoryIdQueryParam"
       responses:
@@ -129,26 +132,30 @@ paths:
                     - productId: 101
                       name: Apple IPhone 13 Pro
                       price: 999.99
+                      releaseDate: 2024-12-10T15:38:57.215Z
                       categoryName: Mobiles
                       quantity: 96
                     - productId: 102
                       name: Samsung S22 Ultra
                       price: 899.11
+                      releaseDate: 2024-12-10T15:38:57.215Z
                       categoryName: Mobiles
                       quantity: 121
                     - productId: 103
                       name: OnePlus 10 Pro 5G
                       price: 750.25
+                      releaseDate: 2024-12-10T15:38:57.215Z
                       categoryName: Mobiles
                       quantity: 67
         500:
-          $ref: "#/components/responses/IntenrnalServerError"
+          $ref: "#/components/responses/InternalServerError"
   /products/{productId}:
     get:
       tags:
         - Products
       summary: Product details
       description: Returns a product
+      operationId: getProductDetails
       parameters:
         - name: productId
           in: path
@@ -166,7 +173,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Product"
         500:
-          $ref: "#/components/responses/IntenrnalServerError"
+          $ref: "#/components/responses/InternalServerError"
   /orders:
     post:
       tags:
@@ -174,6 +181,7 @@ paths:
       summary: Create order
       description: |
         Post order etails to EazyShop for procesing and shipping
+      operationId: createOrderDetails
       requestBody:
         required: true
         content:
@@ -195,14 +203,18 @@ paths:
                 properties:
                   orderId:
                     type: integer
+          links:
+            GetOrderByOrderId:
+              $ref: "#/components/links/GetOrderByOrderId"
         500:
-          $ref: "#/components/responses/IntenrnalServerError"
+          $ref: "#/components/responses/InternalServerError"
     put:
       tags:
         - Orders
       summary: Update order
       description: |
         Post order etails to EazyShop for procesing and shipping
+      operationId: updateOrderDetails
       requestBody:
         required: true
         content:
@@ -229,24 +241,26 @@ paths:
                   orderId:
                     type: integer
         500:
-          $ref: "#/components/responses/IntenrnalServerError"
+          $ref: "#/components/responses/InternalServerError"
     delete:
       tags:
         - Orders
       summary: Delete order
       description: Delete order details from EazyShop
+      operationId: deleteOrderDetails
       parameters:
         - $ref: "#/components/parameters/orderIdQueryParam"
       responses:
         204:
           description: Order cancelled successfully
         500:
-          $ref: "#/components/responses/IntenrnalServerError"
+          $ref: "#/components/responses/InternalServerError"
     get:
       tags:
         - Orders
       summary: Get order details
       description: Returns order details from EazyShop
+      operationId: getOrderDetails
       parameters:
         - $ref: "#/components/parameters/orderIdQueryParam"
       responses:
@@ -266,7 +280,89 @@ paths:
                     items:
                       $ref: "#/components/schemas/Product"
         500:
-          $ref: "#/components/responses/IntenrnalServerError"
+          $ref: "#/components/responses/InternalServerError"
+  /orders/{orderId}:
+    get:
+      tags:
+        - Orders
+      summary: Get Order Details
+      description: Get order details from EazyShop
+      operationId: getOrderDetailsUsingPathParam
+      deprecated: true
+      parameters:
+        - $ref: "#/components/parameters/orderIdPathParam"
+      responses:
+        '200':
+          description: Fetch Order details successfully
+          content:
+            application/json:
+              schema: 
+                type: object
+                properties:
+                  orderId:
+                    type: integer
+                  products:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Product"
+                  address:
+                    $ref: "#/components/schemas/Address"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /oneOfOrder:
+    post:
+      tags:
+        - Orders
+      summary: Insert OneOf the Order Details
+      description: Insert OneOf the Order Details into EazyShop
+      operationId: demoOfOneOf
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product:
+                  type: object
+                  oneOf:
+                    - $ref: "#/components/schemas/Mobile"
+                    - $ref: "#/components/schemas/Laptop"
+                address:
+                  $ref: "#/components/schemas/Address"
+              required: [product, address]
+      responses:
+        200: 
+          description: Order placed successfully
+  /anyOfOrder:
+    get:
+      tags:
+      - Orders
+      summary: Get Order Details
+      description: Get Order Details based on Order ID
+      operationId: demoOfAnyOf
+      parameters:
+        - $ref: "#/components/parameters/orderIdQueryParam"
+        - name: fetchType
+          in: query
+          required: true
+          schema:
+            type: string
+            enum:
+              - summary
+              - details
+          description: >
+            Fetch Type:
+             * `summary` - Will provide Order Summary
+             * `details` - Will provide Order Summary & Order Address
+      responses:
+        '200':
+          description: Return product details
+          content:
+            application/json:
+              schema:
+               anyOf:
+                - $ref: '#/components/schemas/OrderSummary'
+                - $ref: '#/components/schemas/OrderAddress'   
 components:
   parameters:
     orderIdQueryParam:
@@ -276,6 +372,12 @@ components:
       schema:
         type: integer
       example: 101
+    orderIdPathParam:
+      name: orderId
+      in: path
+      required: true
+      schema:
+        type: integer
     categoryIdQueryParam:
       name: categoryId
       in: query
@@ -343,8 +445,51 @@ components:
           type: integer
         name:
           type: string
+    Mobile:
+      allOf:
+       - $ref: "#/components/schemas/Product"
+       - type: object
+         properties:
+          networkType:
+            type: string
+            enum:
+              - 4G
+              - 5G
+         required: [networkType]
+    Laptop:
+      allOf:
+        - $ref: "#/components/schemas/Product"
+        - type: object
+          properties:
+            ram:
+              type: string
+              enum:
+                - 8GB
+                - 16GB
+                - 32GB
+          required: [ram]
+    OrderSummary:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    OrderAddress:
+      type: object
+      properties:
+        address:
+          $ref: '#/components/schemas/Address'
   responses:
-    IntenrnalServerError:        
+    InternalServerError:        
       description: |
         An error occured while processing the request.
         Please contact support@eazyshop.com
+  links:
+    GetOrderByOrderId:
+      description: >
+        The `orderId` value returned in the response can be used as input parameter in `GET /orders`.
+      operationId: getOrderDetails
+      parameters:
+        orderId: '$response.body#/orderId'
+ 
